@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+
+<robot name="robot_7_macro" xmlns:xacro="http://wiki.ros.org/xacro">
+
+
+<xacro:macro name="base_link_macro" params="base_link_name">
+<link name="${base_link_name}">
+			
+	<inertial>
+		<origin xyz="-0.1 0 0.07" rpy="0 0 0"/>		
+		<mass value="5"/>
+		<inertia ixx="0.05" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.06" izz="0.03"/>
+	</inertial>
+
+	<visual>
+		<origin rpy="0 0 0" xyz="0 0 0"/>		
+		<geometry>
+          		<mesh filename="package://exercise_7/meshes/iiwa7/visual/link_0.stl"/>
+       		</geometry>
+		<material name="red">	
+			<color rgba="1 0 0 1"/>
+		</material>
+	</visual>
+			
+	<collision>
+		<origin rpy="0 0 0" xyz="0 0 0"/>		
+		<geometry>
+			<mesh filename="package://exercise_7/meshes/iiwa7/collision/link_0.stl"/>
+		</geometry>
+	</collision>
+			
+</link>
+</xacro:macro>
+
+
+		
+	
+	<xacro:macro name="exercise_7_joint" params="name type parent child *origin *axis *limit">
+		<joint name="${name}" type="${type}">
+			<parent link="${parent}" />
+			<child link="${child}" />
+	    		<xacro:insert_block name="origin" />
+			<xacro:insert_block name="axis" />
+	    		<xacro:insert_block name="limit"/>
+	    		<dynamics damping="50" friction="1"/>
+		</joint>
+	</xacro:macro>
+
+<xacro:macro name="exercise_7_link" params="name *origin *mass *inertia *origin  *geometry *material *origin *geometry">
+	<link name="${name}">
+			
+	<inertial>
+		<xacro:insert_block name="origin" />
+		<xacro:insert_block name="mass" />
+		<xacro:insert_block name="inertia" />
+	 </inertial>
+
+	<visual>
+		<xacro:insert_block name="origin" />
+		<xacro:insert_block name="geometry" />
+		<xacro:insert_block name="material" />
+	</visual>
+		  
+	<collision>
+		<xacro:insert_block name="origin" />
+		<xacro:insert_block name="geometry" />		
+	</collision>
+			
+	  </link>
+	</xacro:macro>	
+</robot>
